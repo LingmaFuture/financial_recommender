@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>金融产品推荐系统</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            margin: 15px 0 0;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .nav-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-decoration: none;
+            color: #333;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-card .icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: #2a5298;
+        }
+
+        .nav-card h2 {
+            margin: 0 0 15px 0;
+            color: #2a5298;
+        }
+
+        .nav-card p {
+            margin: 0;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .features {
+            margin: 60px 0;
+            padding: 40px 0;
+            background: white;
+        }
+
+        .features h2 {
+            text-align: center;
+            color: #2a5298;
+            margin-bottom: 40px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .feature-item .icon {
+            font-size: 2em;
+            color: #2a5298;
+            margin-bottom: 15px;
+        }
+
+        .api-section {
+            background: #f8f9fa;
+            padding: 40px 0;
+            margin-top: 40px;
+        }
+
+        .api-section h2 {
+            color: #2a5298;
+            margin-bottom: 20px;
+        }
+
+        .api-details {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        code {
+            background-color: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #e83e8c;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        ul li:before {
+            content: "•";
+            color: #2a5298;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        @media (max-width: 768px) {
+            .nav-cards, .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .intro-section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .intro-section h2 {
+            color: #2a5298;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .intro-section h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: #2a5298;
+        }
+
+        .intro-content {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .intro-item {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #2a5298;
+        }
+
+        .intro-item h3 {
+            color: #2a5298;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .intro-item p {
+            color: #666;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .intro-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .developer-info {
+            text-align: center;
+            padding: 40px 0;
+            background: #f8f9fa;
+            margin-top: 40px;
+        }
+
+        .info-button {
+            background: #2a5298;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+
+        .info-button:hover {
+            background: #1e3c72;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border: none;
+            background: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .qr-code {
+            margin: 20px auto;
+            max-width: 200px;
+            width: 100%;
+        }
+
+        .qr-code img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .donate-text {
+            color: #666;
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>金融产品推荐系统</h1>
+            <p>智能分析您的投资需求，为您推荐最适合的金融产品</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="nav-cards">
+            <a href="/recommend" class="nav-card">
+                <div class="icon">🎯</div>
+                <h2>产品推荐</h2>
+                <p>根据您的个人情况和投资偏好，为您推荐最适合的金融产品。通过智能算法分析，帮助您做出明智的投资决策。</p>
+            </a>
+            <a href="/education" class="nav-card">
+                <div class="icon">📚</div>
+                <h2>资源中心</h2>
+                <p>获取最新的金融市场分析，帮助您做出明智的投资决策。</p>
+            </a>
+            <a href="/chat" class="nav-card">
+                <div class="icon">💬</div>
+                <h2>智能客服</h2>
+                <p>24小时在线的AI助手，随时为您解答关于金融产品的各类问题，提供专业的咨询服务。</p>
+            </a>
+            <a href="/api" class="nav-card">
+                <div class="icon">🔌</div>
+                <h2>API说明</h2>
+                <p>面向开发者的API接口文档，包含完整的接口说明和示例代码，帮助您快速集成我们的服务。</p>
+            </a>
+            <a href="/discussion" class="nav-card">
+                <div class="icon">💭</div>
+                <h2>讨论区</h2>
+                <p>与其他用户分享经验和想法，探讨金融投资话题。</p>
+            </a>
+        </div>
+
+        <div class="intro-section">
+            <h2>系统简介</h2>
+            <div class="intro-content">
+                <div class="intro-item">
+                    <h3>智能推荐</h3>
+                    <p>基于先进的机器学习算法，根据用户的个人情况、风险偏好和投资目标，为您量身定制最适合的金融产品组合。</p>
+                </div>
+                <div class="intro-item">
+                    <h3>专业分析</h3>
+                    <p>提供全面的市场分析和风险评估，帮助您做出明智的投资决策，实现资产的稳健增值。</p>
+                </div>
+                <div class="intro-item">
+                    <h3>实时咨询</h3>
+                    <p>24小时智能客服在线，随时解答您的投资疑问，提供专业的金融咨询服务。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="developer-info">
+        <button class="info-button" onclick="showModal()">开发者信息</button>
+    </div>
+
+    <div id="developerModal" class="modal">
+        <div class="modal-content">
+            <button class="close-button" onclick="hideModal()">×</button>
+            <h3>开发者信息</h3>
+            <p>作者：陈岩</p>
+            <p>电话/微信：18295628698</p>
+            <p>邮箱：1398053985@qq.com</p>
+            <div class="qr-code">
+                <p class="donate-text">如果有帮助，欢迎扫码捐赠❤️</p>
+                <img src="static/images/donate.jpg" alt="捐赠二维码">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showModal() {
+            document.getElementById('developerModal').style.display = 'block';
+        }
+
+        function hideModal() {
+            document.getElementById('developerModal').style.display = 'none';
+        }
+
+        // 点击模态框外部时关闭
+        window.onclick = function(event) {
+            var modal = document.getElementById('developerModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html> 

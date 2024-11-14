@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>教育资源中心 - 金融产品推荐系统</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .resource-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .resource-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .resource-card h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .resource-card p {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .resource-card a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .resource-card a:hover {
+            text-decoration: underline;
+        }
+        .education-content {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #2a5298;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .back-button:hover {
+            background-color: #1e3c72;
+        }
+        @media (max-width: 768px) {
+            .education-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>教育资源中心</h1>
+            <p>为您提供全面的金融教育资源</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <a href="/" class="back-button">返回首页</a>
+
+        <div class="education-content">
+            <div class="resource-card">
+                <h3>股票市场研究</h3>
+                <div class="resource-item">
+                    <h4>Interactive Brokers</h4>
+                    <p>提供实时的综合研究、新闻与分析，专注于股票市场的动态。</p>
+                    <a href="https://www.interactivebrokers.com" target="_blank">访问网站 →</a>
+                </div>
+            </div>
+
+            <div class="resource-card">
+                <h3>实时市场动态</h3>
+                <div class="resource-item">
+                    <h4>The Fly</h4>
+                    <p>领先的实时金融新闻数字出版商，专注于影响市场趋势的短小新闻。</p>
+                    <a href="https://thefly.com" target="_blank">访问网站 →</a>
+                </div>
+            </div>
+
+            <div class="resource-card">
+                <h3>加密货币分析</h3>
+                <div class="resource-item">
+                    <h4>Coin Metrics</h4>
+                    <p>专注于加密货币的金融情报，提供网络数据和市场数据。</p>
+                    <a href="https://coinmetrics.io" target="_blank">访问网站 →</a>
+                </div>
+            </div>
+
+            <div class="resource-card">
+                <h3>投资研究平台</h3>
+                <div class="resource-item">
+                    <h4>Edison</h4>
+                    <p>投资研究和顾问公司，提供股票研究平台及深度行业分析。</p>
+                    <a href="https://www.edisongroup.com" target="_blank">访问网站 →</a>
+                </div>
+            </div>
+
+            <div class="resource-card">
+                <h3>技术分析工具</h3>
+                <div class="resource-item">
+                    <h4>FinGraphs</h4>
+                    <p>提供外汇、股票和ETF的市场走势和技术分析工具。</p>
+                    <a href="https://fingraphs.com" target="_blank">访问网站 →</a>
+                </div>
+            </div>
+
+            <div class="resource-card">
+                <h3>数据分析平台</h3>
+                <div class="resource-item">
+                    <h4>Economatica</h4>
+                    <p>基于SaaS的投资研究平台，快速整理美国主要交易所上市公司的信息。</p>
+                    <a href="https://economatica.com" target="_blank">访问网站 →</a>
+                </div>
+            </div>
+
+            <div class="resource-card">
+                <h3>市场预测平台</h3>
+                <div class="resource-item">
+                    <h4>Estimize</h4>
+                    <p>众包财务预测平台，提供来自分析师的真实市场预期。</p>
+                    <a href="https://www.estimize.com" target="_blank">访问网站 →</a>
+                </div>
+            </div>
+
+            <div class="resource-card">
+                <h3>A股数据分析</h3>
+                <div class="resource-item">
+                    <h4>AKShare</h4>
+                    <p>提供全面的A股市场数据，包括实时行情和个股信息查询。</p>
+                    <a href="https://www.akshare.xyz" target="_blank">访问网站 →</a>
+                </div>
+            </div>
+
+            <div class="resource-card">
+                <h3>量化投资分析</h3>
+                <div class="resource-item">
+                    <h4>FSinsight</h4>
+                    <p>提供量化指数和深入市场分析，帮助投资者发现潜在的投资机会。</p>
+                    <a href="https://fsinsight.com" target="_blank">访问网站 →</a>
+                </div>
+            </div>
+
+            <div class="resource-card">
+                <h3>商品交易研究</h3>
+                <div class="resource-item">
+                    <h4>Fundamental Analytics</h4>
+                    <p>交互式网站，供商品交易者研究价格变化及基本面数据。</p>
+                    <a href="https://fundamentalanalytics.com" target="_blank">访问网站 →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
