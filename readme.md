@@ -177,7 +177,7 @@ financial_recommender1/
 
 ### 数据格式要求
 推荐系统支持的输入数据格式：
-```json
+```javascript
 {
   "AGE": 30,                    // 年龄 (数值)
   "GENDER": "M",                // 性别 (M/F)
@@ -187,6 +187,14 @@ financial_recommender1/
   "ASSET_CLASS": "Stocks"       // 资产类别偏好
 }
 ```
+
+**字段说明：**
+- `AGE`: 用户年龄，数值类型
+- `GENDER`: 性别，可选值：`"M"` (男性) 或 `"F"` (女性)
+- `MARITAL`: 婚姻状况，可选值：`"Single"` (单身) 或 `"Married"` (已婚)
+- `HAVE_CHILD`: 是否有子女，可选值：`"Yes"` 或 `"No"`
+- `EDU_LEVEL`: 教育水平，可选值：`"High School"`, `"Bachelor"`, `"Master"`, `"PhD"`
+- `ASSET_CLASS`: 资产类别偏好，根据数据集中的具体类别而定
 
 ### 模型训练与部署
 ```powershell
@@ -237,7 +245,7 @@ A: 支持所有 Ollama 兼容的模型，推荐使用 llama2、qwen、chatglm �
 ## 📞 联系方式
 
 - **GitHub**: [LingmaFuture](https://github.com/LingmaFuture)
-- **邮箱**: 1398053985@qq.com
+- **邮箱**: rockwaychen@gmail.com
 
 ## 📄 开源协议
 
