@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>讨论区 - 金融产品推荐系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* 基础样式 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .comment-form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .comment-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .comment-form input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .comment-form button {
+            background: #1a237e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .comments-list {
+            margin-top: 20px;
+        }
+
+        .comment {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .comment-author {
+            font-weight: bold;
+            color: #1a237e;
+        }
+
+        .comment-date {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .comment-content {
+            margin-bottom: 10px;
+        }
+
+        .comment-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .comment-actions button {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            padding: 5px 10px;
+            font-size: 0.9em;
+        }
+
+        .comment-actions button:hover {
+            color: #1a237e;
+        }
+
+        .replies {
+            margin-left: 30px;
+            border-left: 2px solid #ddd;
+            padding-left: 15px;
+        }
+
+        .load-more {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .load-more button {
+            background: #f0f2f5;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #1a237e;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #2a5298;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        /* 添加错误提示样式 */
+        .error-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #ff4444;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .error-toast button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>讨论区</h1>
+        <p>分享您的想法和经验</p>
+    </div>
+
+    <div class="container">
+        <a href="/" class="back-button">返回首页</a>
+
+        <div class="comment-form">
+            <input type="text" id="authorInput" placeholder="您的昵称">
+            <textarea id="commentInput" placeholder="分享您的想法..."></textarea>
+            <button onclick="submitComment()">发表评论</button>
+        </div>
+
+        <div class="comments-list" id="commentsList">
+            <!-- 评论将通过JavaScript动态加载 -->
+        </div>
+
+        <div class="load-more">
+            <button onclick="loadMoreComments()">加载更多</button>
+        </div>
+
+        <div id="errorToast" class="error-toast" style="display: none;">
+            <span class="message"></span>
+            <button onclick="this.parentElement.style.display='none'">&times;</button>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        let totalPages = 1;
+
+        // 页面加载时获取评论
+        document.addEventListener('DOMContentLoaded', () => {
+            loadComments();
+        });
+
+        async function loadComments(page = 1) {
+            try {
+                console.log('Loading comments page:', page);  // 调试日志
+                
+                const response = await fetch(`/api/comments?page=${page}`);
+                console.log('Response status:', response.status);  // 调试日志
+                
+                const data = await response.json();
+                console.log('Received comments:', data);  // 调试日志
+                
+                if (!response.ok) {
+                    throw new Error(data.error || '加载失败');
+                }
+                
+                if (page === 1) {
+                    document.getElementById('commentsList').innerHTML = '';
+                }
+                
+                if (data.comments && data.comments.length > 0) {
+                    data.comments.forEach(comment => {
+                        appendComment(comment);
+                    });
+                    
+                    currentPage = data.current_page;
+                    totalPages = data.pages;
+                    
+                    // 更新加载更多按钮显示状态
+                    const loadMoreBtn = document.querySelector('.load-more');
+                    loadMoreBtn.style.display = currentPage >= totalPages ? 'none' : 'block';
+                } else {
+                    if (page === 1) {
+                        document.getElementById('commentsList').innerHTML = '<div class="no-comments">暂无评论</div>';
+                    }
+                }
+                
+            } catch (error) {
+                console.error('加载评论失败:', error);
+                alert('加载评论失败: ' + error.message);
+            }
+        }
+
+        function appendComment(comment, parentElement = null) {
+            const commentElement = document.createElement('div');
+            commentElement.className = 'comment';
+            commentElement.innerHTML = `
+                <div class="comment-header">
+                    <span class="comment-author">${comment.author}</span>
+                    <span class="comment-date">${comment.created_at}</span>
+                </div>
+                <div class="comment-content">${comment.content}</div>
+                <div class="comment-actions">
+                    <button onclick="likeComment(${comment.id})">
+                        👍 ${comment.likes}
+                    </button>
+                    <button onclick="showReplyForm(${comment.id})">回复</button>
+                </div>
+                <div id="replyForm-${comment.id}" style="display: none;">
+                    <input type="text" placeholder="您的昵称" id="replyAuthor-${comment.id}">
+                    <textarea placeholder="写下您的回复..." id="replyContent-${comment.id}"></textarea>
+                    <button onclick="submitReply(${comment.id})">提交回复</button>
+                </div>
+            `;
+
+            if (parentElement) {
+                parentElement.appendChild(commentElement);
+            } else {
+                document.getElementById('commentsList').appendChild(commentElement);
+            }
+        }
+
+        async function submitComment(parentId = null) {
+            try {
+                const authorInput = document.getElementById(parentId ? `replyAuthor-${parentId}` : 'authorInput');
+                const contentInput = document.getElementById(parentId ? `replyContent-${parentId}` : 'commentInput');
+                
+                const author = authorInput.value.trim();
+                const content = contentInput.value.trim();
+                
+                if (!author || !content) {
+                    alert('请填写昵称和内容');
+                    return;
+                }
+                
+                console.log('Submitting comment:', { author, content, parentId });  // 调试日志
+                
+                const response = await fetch('/api/comments', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        author,
+                        content,
+                        parent_id: parentId
+                    })
+                });
+                
+                console.log('Response status:', response.status);  // 调试日志
+                
+                const data = await response.json();
+                console.log('Response data:', data);  // 调试日志
+                
+                if (response.ok) {
+                    // 清空输入框
+                    authorInput.value = '';
+                    contentInput.value = '';
+                    
+                    // 如果是回复，隐藏回复表单
+                    if (parentId) {
+                        document.getElementById(`replyForm-${parentId}`).style.display = 'none';
+                    }
+                    
+                    // 重新加载评论
+                    await loadComments();
+                    
+                    // 显示成功消息
+                    alert('评论发表成功！');
+                } else {
+                    throw new Error(data.error || '提交失败');
+                }
+            } catch (error) {
+                console.error('提交评论失败:', error);
+                alert('提交失败，请稍后重试: ' + error.message);
+            }
+        }
+
+        // 添加错误提示函数
+        function showError(message) {
+            const toast = document.getElementById('errorToast');
+            toast.querySelector('.message').textContent = message;
+            toast.style.display = 'flex';
+            
+            // 5秒后自动隐藏
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html> 

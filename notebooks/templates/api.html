@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API说明 - 金融产品推荐系统</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .api-overview {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 4px solid #2a5298;
+        }
+
+        .api-section {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .api-endpoint {
+            margin-bottom: 50px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 30px;
+        }
+
+        .api-endpoint:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .endpoint-title {
+            color: #2a5298;
+            font-size: 1.4em;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .method {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+
+        .method.post {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .section-title {
+            color: #2a5298;
+            margin: 30px 0 15px;
+            font-size: 1.2em;
+        }
+
+        .parameter-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 20px 0;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .parameter-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            padding: 15px;
+            text-align: left;
+            border-bottom: 2px solid #eee;
+        }
+
+        .parameter-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .parameter-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        pre {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid #eee;
+            margin: 15px 0;
+        }
+
+        code {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', monospace;
+            font-size: 0.9em;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #2a5298;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .back-button:hover {
+            background-color: #1e3c72;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>API 文档</h1>
+            <p>金融产品推荐系统开发者接口说明</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <a href="/" class="back-button">返回首页</a>
+
+        <div class="api-section">
+            <div class="api-overview">
+                <h2>接口概述</h2>
+                <p>本系统提供RESTful API接口，支持JSON格式的数据交互。所有请求都需要包含适当的Content-Type头部。</p>
+            </div>
+
+            <div class="api-endpoint">
+                <h3 class="endpoint-title">
+                    <span class="method post">POST</span>
+                    <span>/recommend</span>
+                </h3>
+                <p>根据用户信息生成金融产品推荐。</p>
+                
+                <h4 class="section-title">请求参数</h4>
+                <table class="parameter-table">
+                    <tr>
+                        <th>参数名</th>
+                        <th>类型</th>
+                        <th>必填</th>
+                        <th>说明</th>
+                    </tr>
+                    <tr>
+                        <td>AGE</td>
+                        <td>Number</td>
+                        <td>是</td>
+                        <td>用户年龄</td>
+                    </tr>
+                    <tr>
+                        <td>GENDER</td>
+                        <td>String</td>
+                        <td>是</td>
+                        <td>性别</td>
+                    </tr>
+                    <tr>
+                        <td>MARITAL</td>
+                        <td>String</td>
+                        <td>是</td>
+                        <td>婚姻状况</td>
+                    </tr>
+                    <tr>
+                        <td>HAVE_CHILD</td>
+                        <td>String</td>
+                        <td>是</td>
+                        <td>是否有子女 (Y/N)</td>
+                    </tr>
+                    <tr>
+                        <td>EDU_LEVEL</td>
+                        <td>String</td>
+                        <td>是</td>
+                        <td>教育水平</td>
+                    </tr>
+                </table>
+
+                <h4 class="section-title">示例请求</h4>
+                <pre><code>{
+    "AGE": 35,
+    "GENDER": "M",
+    "MARITAL": "MARRIED",
+    "HAVE_CHILD": "Y",
+    "EDU_LEVEL": "BACHELOR"
+}</code></pre>
+
+                <h4 class="section-title">示例响应</h4>
+                <pre><code>{
+    "recommendations": [
+        {
+            "product_id": "FP001",
+            "name": "稳健理财产品A",
+            "score": 0.95,
+            "description": "适合稳健型投资者的理财产品"
+        }
+    ]
+}</code></pre>
+            </div>
+
+            <div class="api-endpoint">
+                <h3 class="endpoint-title">
+                    <span class="method post">POST</span>
+                    <span>/chat</span>
+                </h3>
+                <p>智能客服对话接口。</p>
+                
+                <h4 class="section-title">请求参数</h4>
+                <table class="parameter-table">
+                    <tr>
+                        <th>参数名</th>
+                        <th>类型</th>
+                        <th>必填</th>
+                        <th>说明</th>
+                    </tr>
+                    <tr>
+                        <td>question</td>
+                        <td>String</td>
+                        <td>是</td>
+                        <td>用户问题</td>
+                    </tr>
+                </table>
+
+                <h4 class="section-title">示例请求</h4>
+                <pre><code>{
+    "question": "请介绍一下你们的理财产品"
+}</code></pre>
+
+                <h4 class="section-title">示例响应</h4>
+                <pre><code>{
+    "answer": "我们提供多种类型的理财产品，包括..."
+}</code></pre>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
