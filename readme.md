@@ -42,7 +42,7 @@
 python --version
 
 # 克隆项目
-git clone https://github.com/LingmaFuture/financial_recommender1.git
+git clone https://github.com/LingmaFuture/financial-recommender.git
 cd financial_recommender1
 
 # 创建虚拟环境
@@ -241,11 +241,6 @@ A: 支持所有 Ollama 兼容的模型，推荐使用 llama2、qwen、chatglm �
 3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
 4. 推送到分支 (`git push origin feature/AmazingFeature`)
 5. 开启 Pull Request
-
-## 📞 联系方式
-
-- **GitHub**: [LingmaFuture](https://github.com/LingmaFuture)
-- **邮箱**: rockwaychen@gmail.com
 
 ## 📄 开源协议
 
