@@ -242,4 +242,6 @@ A: 支持所有 Ollama 兼容的模型，推荐使用 llama2、qwen、chatglm �
 4. 推送到分支 (`git push origin feature/AmazingFeature`)
 5. 开启 Pull Request
 
+---
+
 ⭐ 如果这个项目对你有帮助，请给个 Star 支持一下！
